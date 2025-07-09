@@ -49,38 +49,9 @@ class _AnimatedTileState extends State<AnimatedTile> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final brightness = theme.brightness;
+    final colorScheme = Theme.of(context).colorScheme;
+    final brightness = Theme.of(context).brightness;
     final value = widget.tile.value;
-
-    final lightGradients = [
-      [Colors.grey[200]!, Colors.grey[300]!],
-      [Colors.blue[100]!, Colors.blue[200]!],
-      [Colors.blue[200]!, Colors.blue[400]!],
-      [Colors.indigo[300]!, Colors.indigo[400]!],
-      [Colors.deepPurple[300]!, Colors.deepPurple[500]!],
-      [Colors.purple[300]!, Colors.purple[500]!],
-      [Colors.pink[300]!, Colors.pink[400]!],
-      [Colors.red[300]!, Colors.red[400]!],
-      [Colors.orange[300]!, Colors.orange[400]!],
-      [Colors.green[300]!, Colors.green[500]!],
-    ];
-
-    final darkGradients = [
-      [Colors.grey[800]!, Colors.grey[700]!],
-      [Colors.blueGrey[700]!, Colors.blueGrey[600]!],
-      [Colors.indigo[700]!, Colors.indigo[500]!],
-      [Colors.deepPurple[700]!, Colors.deepPurple[500]!],
-      [Colors.purple[700]!, Colors.purple[500]!],
-      [Colors.pink[700]!, Colors.pink[400]!],
-      [Colors.red[700]!, Colors.red[500]!],
-      [Colors.orange[700]!, Colors.orange[600]!],
-      [Colors.green[700]!, Colors.green[500]!],
-      [Colors.teal[700]!, Colors.teal[500]!],
-    ];
-
-    final gradient = (brightness == Brightness.dark ? darkGradients : lightGradients)[value % lightGradients.length];
 
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 150),
