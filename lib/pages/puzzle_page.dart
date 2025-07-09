@@ -3,17 +3,22 @@ import 'package:provider/provider.dart';
 import 'package:tartibak/viewmodels/puzzle_view_model.dart';
 import '../widgets/tile_widget.dart';
 
-class PuzzlePage extends StatelessWidget {
+class PuzzlePage extends StatefulWidget {
   const PuzzlePage({super.key, this.gridSize = 3});
   final int gridSize;
 
+  @override
+  State<PuzzlePage> createState() => _PuzzlePageState();
+}
+
+class _PuzzlePageState extends State<PuzzlePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return ChangeNotifierProvider(
-      create: (_) => PuzzleViewModel(gridSize: gridSize),
+      create: (_) => PuzzleViewModel(gridSize: widget.gridSize),
       child: Consumer<PuzzleViewModel>(
         builder: (_, vm, __) {
           final screenSize = MediaQuery.of(context).size;
@@ -53,7 +58,6 @@ class PuzzlePage extends StatelessWidget {
               );
             });
           }
-
           return Scaffold(
             backgroundColor: colorScheme.surface,
             appBar: AppBar(
