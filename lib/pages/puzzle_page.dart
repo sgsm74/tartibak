@@ -14,9 +14,7 @@ class PuzzlePage extends StatefulWidget {
 class _PuzzlePageState extends State<PuzzlePage> {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
+    final colorScheme = Theme.of(context).colorScheme;
     return ChangeNotifierProvider(
       create: (_) => PuzzleViewModel(gridSize: widget.gridSize),
       child: Consumer<PuzzleViewModel>(
@@ -24,7 +22,6 @@ class _PuzzlePageState extends State<PuzzlePage> {
           final screenSize = MediaQuery.of(context).size;
           final boardSize = screenSize.width - 32;
           final tileSize = boardSize / vm.gridSize;
-
           if (vm.isCompleted) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               showDialog(
