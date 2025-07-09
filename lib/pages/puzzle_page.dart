@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tartibak/viewmodels/puzzle_view_model.dart';
+import 'package:tartibak/viewmodels/settings_view_model.dart';
 import '../widgets/tile_widget.dart';
 
 class PuzzlePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return ChangeNotifierProvider(
-      create: (_) => PuzzleViewModel(gridSize: widget.gridSize),
+      create: (_) => PuzzleViewModel(gridSize: widget.gridSize, settings: context.read<SettingsViewModel>()),
       child: Consumer<PuzzleViewModel>(
         builder: (_, vm, __) {
           final screenSize = MediaQuery.of(context).size;

@@ -3,17 +3,20 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:tartibak/models/tile_model.dart';
+import 'package:tartibak/viewmodels/settings_view_model.dart';
 import 'package:vibration/vibration.dart';
 
 class PuzzleViewModel extends ChangeNotifier {
   final int gridSize;
+  final SettingsViewModel settings;
+
   late List<Tile> tiles;
   int moveCount = 0;
   bool isCompleted = false;
   final _player = AudioPlayer();
   Timer? _timer;
   int secondsElapsed = 0;
-  PuzzleViewModel({this.gridSize = 3}) {
+  PuzzleViewModel({required this.settings, this.gridSize = 3}) {
     _initTiles();
   }
 
@@ -91,13 +94,15 @@ class PuzzleViewModel extends ChangeNotifier {
   }
 
   void _vibrate() async {
-    if (await Vibration.hasVibrator()) {
+    if (await Vibration.hasVibrator() && settings.vibrationEnabled) {
       Vibration.vibrate(duration: 10, sharpness: 0.1, amplitude: 180);
     }
   }
 
   void _playClickSound() async {
-    await _player.play(AssetSource('click.mp3'));
+    if (settings.soundEnabled) {
+      await _player.play(AssetSource('click.mp3'));
+    }
   }
 
   Offset getTileOffset(int index) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tartibak/pages/settings_page.dart';
 import 'puzzle_page.dart';
 
 class StartPage extends StatefulWidget {
@@ -142,7 +143,6 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
 
               const SizedBox(height: 48),
 
-              // 🎬 دکمه شروع
               SlideTransition(
                 position: _buttonOffset,
                 child: FadeTransition(
@@ -153,12 +153,33 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colorScheme.secondary,
                       foregroundColor: colorScheme.onSecondary,
-                      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 14),
+                      fixedSize: Size(MediaQuery.sizeOf(context).width / 2, 64),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       elevation: 4,
                     ),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) => PuzzlePage(gridSize: selectedSize)));
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              SlideTransition(
+                position: _buttonOffset,
+                child: FadeTransition(
+                  opacity: _buttonOpacity,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.settings_rounded, size: 28),
+                    label: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(MediaQuery.sizeOf(context).width / 2, 64),
+                      backgroundColor: colorScheme.secondary,
+                      foregroundColor: colorScheme.onSecondary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 4,
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsPage()));
                     },
                   ),
                 ),

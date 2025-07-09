@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tartibak/pages/start_page.dart';
+import 'package:tartibak/viewmodels/puzzle_view_model.dart';
+import 'package:tartibak/viewmodels/settings_view_model.dart';
 
 void main() {
-  runApp(const PuzzleApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsViewModel()),
+        ChangeNotifierProvider(create: (context) => PuzzleViewModel(settings: context.read<SettingsViewModel>())),
+      ],
+      child: const PuzzleApp(),
+    ),
+  );
 }
 
 class PuzzleApp extends StatelessWidget {
@@ -10,6 +21,8 @@ class PuzzleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.watch<SettingsViewModel>();
+
     return MaterialApp(
       title: 'Puzzle Game',
       debugShowCheckedModeBanner: false,
@@ -39,7 +52,7 @@ class PuzzleApp extends StatelessWidget {
         ),
         textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: settings.themeMode,
       home: const StartPage(),
     );
   }
