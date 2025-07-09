@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field, unused_element
-
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -80,7 +78,7 @@ class PuzzleViewModel extends ChangeNotifier {
     if (isUp || isDown || isLeft || isRight) {
       move(index);
     } else {
-      //_vibrate();
+      _vibrate();
     }
   }
 
@@ -94,12 +92,12 @@ class PuzzleViewModel extends ChangeNotifier {
 
   void _vibrate() async {
     if (await Vibration.hasVibrator()) {
-      Vibration.vibrate(duration: 40);
+      Vibration.vibrate(duration: 10, sharpness: 0.1, amplitude: 180);
     }
   }
 
   void _playClickSound() async {
-    //await _player.play(AssetSource('click.mp3'));
+    await _player.play(AssetSource('click.mp3'));
   }
 
   Offset getTileOffset(int index) {

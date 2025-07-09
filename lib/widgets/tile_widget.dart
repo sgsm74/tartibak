@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tartibak/models/tile_model.dart';
@@ -59,10 +61,32 @@ class _AnimatedTileState extends State<AnimatedTile> with SingleTickerProviderSt
       top: widget.offset.dy * widget.tileSize,
       child: GestureDetector(
         onTap: _onTap,
-        onPanUpdate: (details) {
-          final dx = details.delta.dx;
-          final dy = details.delta.dy;
-          final direction = (dx.abs() > dy.abs()) ? (dx > 0 ? "right" : "left") : (dy > 0 ? "down" : "up");
+        onPanEnd: (details) {
+          final velocity = details.velocity.pixelsPerSecond;
+          final dx = velocity.dx;
+          final dy = velocity.dy;
+
+          final absDx = dx.abs();
+          final absDy = dy.abs();
+
+          if (absDx < 50 && absDy < 50) {
+            // حرکت خیلی کوچک، نادیده بگیر
+            return;
+          }
+
+          final angle = atan2(dy, dx) * 180 / pi;
+
+          String direction;
+
+          if (angle >= -45 && angle <= 45) {
+            direction = "right";
+          } else if (angle > 45 && angle < 135) {
+            direction = "down";
+          } else if (angle >= 135 || angle <= -135) {
+            direction = "left";
+          } else {
+            direction = "up";
+          }
           widget.onSwipe(direction);
         },
         child: ScaleTransition(
