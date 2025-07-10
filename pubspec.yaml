@@ -41,12 +41,10 @@ flutter:
 
     - family: Roboto
       fonts:
-        - asset: assets/fonts/Roboto_Black.ttf
-        - asset: assets/fonts/Roboto_Bold.ttf
-        - asset: assets/fonts/Roboto_Light.ttf
-        - asset: assets/fonts/Roboto_Medium.ttf
-        - asset: assets/fonts/Roboto_UltraLight.ttf
-        - asset: assets/fonts/Roboto.ttf
+        - asset: assets/fonts/Roboto-Black.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
 
   # To add assets to your application, add an assets section, like this:
   assets:
