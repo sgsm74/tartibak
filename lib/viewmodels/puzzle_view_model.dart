@@ -22,20 +22,21 @@ class PuzzleViewModel extends ChangeNotifier {
 
   void _initTiles() {
     final total = gridSize * gridSize;
-    tiles = List.generate(total, (i) => Tile(value: i + 1, isEmpty: i == total - 1));
+    do {
+      tiles = List.generate(total, (i) => Tile(value: i + 1, isEmpty: false));
+      tiles.shuffle();
 
-    // Shuffle while keeping last tile empty
-    tiles.shuffle();
-    final emptyIndex = tiles.indexWhere((e) => e.isEmpty);
+      final emptyIndex = tiles.indexWhere((e) => e.value == total);
+      tiles[emptyIndex] = Tile(value: total, isEmpty: true);
+      if (emptyIndex != tiles.length - 1) {
+        final last = tiles[tiles.length - 1];
+        tiles[tiles.length - 1] = tiles[emptyIndex];
+        tiles[emptyIndex] = last;
+      }
+    } while (!isSolvable(tiles.map((e) => e.value).toList(), gridSize));
+
     moveCount = 0;
     isCompleted = false;
-
-    if (emptyIndex != tiles.length - 1) {
-      final last = tiles[tiles.length - 1];
-      tiles[tiles.length - 1] = tiles[emptyIndex];
-      tiles[emptyIndex] = last;
-    }
-
     notifyListeners();
   }
 
@@ -96,6 +97,30 @@ class PuzzleViewModel extends ChangeNotifier {
   void _vibrate() async {
     if (await Vibration.hasVibrator() && settings.vibrationEnabled) {
       Vibration.vibrate(duration: 10, sharpness: 0.1, amplitude: 180);
+    }
+  }
+
+  bool isSolvable(List<int> values, int gridSize) {
+    int emptyValue = gridSize * gridSize;
+    int inversions = 0;
+    for (int i = 0; i < values.length; i++) {
+      for (int j = i + 1; j < values.length; j++) {
+        if (values[i] != emptyValue && values[j] != emptyValue && values[i] > values[j]) {
+          inversions++;
+        }
+      }
+    }
+
+    if (gridSize.isOdd) {
+      return inversions.isEven;
+    } else {
+      int blankIndex = values.indexOf(emptyValue);
+      int rowFromBottom = gridSize - (blankIndex ~/ gridSize);
+      if (rowFromBottom.isEven) {
+        return inversions.isOdd;
+      } else {
+        return inversions.isEven;
+      }
     }
   }
 
