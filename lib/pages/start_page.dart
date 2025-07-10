@@ -66,7 +66,6 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
     final loc = AppLocalizations(Localizations.localeOf(context));
-
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: Center(
@@ -94,9 +93,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
               const SizedBox(height: 36),
-
               SlideTransition(
                 position: _tilesOffset,
                 child: FadeTransition(
@@ -142,9 +139,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
               const SizedBox(height: 48),
-
               SlideTransition(
                 position: _buttonOffset,
                 child: FadeTransition(
