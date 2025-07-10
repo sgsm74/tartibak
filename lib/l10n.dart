@@ -19,6 +19,10 @@ class AppLocalizations {
       "dark_theme": "Dark Theme",
       "click_sound": "Click Sound",
       "vibration": "Vibration",
+      "exit_game_title": "Exit Game?",
+      "exit_game_content": "If you go back, your score will be lost. Are you sure?",
+      "exit_game_no": "No",
+      "exit_game_yes": "Yes, go",
     },
     'fa': {
       'title': 'پازل عددی',
@@ -33,6 +37,10 @@ class AppLocalizations {
       "dark_theme": "تم تاریک",
       "click_sound": "صدای کلیک",
       "vibration": "ویبره",
+      "exit_game_title": "خروج از بازی؟",
+      "exit_game_content": "اگه بری عقب، امتیازت از بین می‌ره. مطمئنی؟",
+      "exit_game_no": "نه",
+      "exit_game_yes": "آره، برو",
     },
   };
 

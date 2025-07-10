@@ -60,70 +60,125 @@ class _PuzzlePageState extends State<PuzzlePage> {
               );
             });
           }
-          return Scaffold(
-            backgroundColor: colorScheme.surface,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Text(
-                '${loc.get('title')}',
-                style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface, fontFamily: 'IranSansNum'),
-              ),
-              centerTitle: true,
-              actions: [
-                IconButton(icon: Icon(Icons.refresh, color: colorScheme.onSurface), tooltip: '${loc.get('restart')}', onPressed: vm.reset),
-              ],
-            ),
-            body: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _InfoCard(label: '${loc.get('moves')}', value: "${vm.moveCount}"),
-                      _InfoCard(label: '${loc.get('time')}', value: _formatTime(vm.secondsElapsed)),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: SizedBox(
-                      width: boardSize,
-                      height: boardSize,
-                      child: Stack(
-                        children: [
-                          GridView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: vm.tiles.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: vm.gridSize),
-                            itemBuilder:
-                                (_, __) => Container(
-                                  margin: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    color: colorScheme.surfaceContainerHighest,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) async {
+              if (didPop) {
+                return;
+              }
+              final bool shouldPop =
+                  await showDialog<bool>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      final theme = Theme.of(context);
+                      final colorScheme = theme.colorScheme;
+
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: colorScheme.surface,
+                        title: Text(
+                          loc.get('exit_game_title')!,
+                          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: colorScheme.onSurface),
+                        ),
+                        content: Text(
+                          loc.get('exit_game_content')!,
+                          style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+                        ),
+                        actionsAlignment: MainAxisAlignment.end,
+                        actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: Text(loc.get('exit_game_no')!, style: TextStyle(color: colorScheme.primary)),
                           ),
-                          ...[
-                            for (int index = 0; index < vm.tiles.length; index++)
-                              if (!vm.tiles[index].isEmpty)
-                                AnimatedTile(
-                                  key: ValueKey(vm.tiles[index].value),
-                                  tile: vm.tiles[index],
-                                  tileSize: tileSize,
-                                  offset: vm.getTileOffset(index),
-                                  onTap: () => vm.move(index),
-                                  onSwipe: (direction) => vm.moveBySwipe(index, direction),
-                                ),
-                          ],
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: colorScheme.error,
+                              foregroundColor: colorScheme.onError,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text(loc.get('exit_game_yes')!),
+                          ),
                         ],
+                      );
+                    },
+                  ) ??
+                  false;
+              if (context.mounted && shouldPop) {
+                Navigator.pop(context, result);
+              }
+            },
+            child: Scaffold(
+              backgroundColor: colorScheme.surface,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: Text(
+                  '${loc.get('title')}',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface, fontFamily: 'IranSansNum'),
+                ),
+                centerTitle: true,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.refresh, color: colorScheme.onSurface),
+                    tooltip: '${loc.get('restart')}',
+                    onPressed: vm.reset,
+                  ),
+                ],
+              ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _InfoCard(label: '${loc.get('moves')}', value: "${vm.moveCount}"),
+                        _InfoCard(label: '${loc.get('time')}', value: _formatTime(vm.secondsElapsed)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: SizedBox(
+                        width: boardSize,
+                        height: boardSize,
+                        child: Stack(
+                          children: [
+                            GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: vm.tiles.length,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: vm.gridSize),
+                              itemBuilder:
+                                  (_, __) => Container(
+                                    margin: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: colorScheme.surfaceContainerHighest,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                            ),
+                            ...[
+                              for (int index = 0; index < vm.tiles.length; index++)
+                                if (!vm.tiles[index].isEmpty)
+                                  AnimatedTile(
+                                    key: ValueKey(vm.tiles[index].value),
+                                    tile: vm.tiles[index],
+                                    tileSize: tileSize,
+                                    offset: vm.getTileOffset(index),
+                                    onTap: () => vm.move(index),
+                                    onSwipe: (direction) => vm.moveBySwipe(index, direction),
+                                  ),
+                            ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
