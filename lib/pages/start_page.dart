@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tartibak/l10n.dart';
 import 'package:tartibak/pages/settings_page.dart';
 import 'puzzle_page.dart';
 
@@ -64,6 +65,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
+    final loc = AppLocalizations(Localizations.localeOf(context));
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
@@ -80,12 +82,12 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
                   child: Column(
                     children: [
                       Text(
-                        '🧩 پازل عددی',
+                        '${loc.get('title')} 🧩 ',
                         style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold, color: colorScheme.primary),
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'سایز پازل رو انتخاب کن و شروع کن',
+                        '${loc.get('select_size')}',
                         style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface.withValues(alpha: 0.7)),
                       ),
                     ],
@@ -149,7 +151,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
                   opacity: _buttonOpacity,
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.play_arrow_rounded, size: 28),
-                    label: const Text('شروع بازی', style: TextStyle(fontSize: 18)),
+                    label: Text('${loc.get('start_game')}', style: TextStyle(fontSize: 18)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colorScheme.secondary,
                       foregroundColor: colorScheme.onSecondary,
@@ -170,7 +172,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
                   opacity: _buttonOpacity,
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.settings_rounded, size: 28),
-                    label: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
+                    label: Text('${loc.get('settings')}', style: TextStyle(fontSize: 18)),
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(MediaQuery.sizeOf(context).width / 2, 64),
                       backgroundColor: colorScheme.secondary,

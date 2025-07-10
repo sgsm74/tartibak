@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tartibak/l10n.dart';
 import 'package:tartibak/viewmodels/puzzle_view_model.dart';
 import 'package:tartibak/viewmodels/settings_view_model.dart';
 import '../widgets/tile_widget.dart';
@@ -15,6 +16,7 @@ class PuzzlePage extends StatefulWidget {
 class _PuzzlePageState extends State<PuzzlePage> {
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations(Localizations.localeOf(context));
     final colorScheme = Theme.of(context).colorScheme;
     return ChangeNotifierProvider(
       create: (_) => PuzzleViewModel(gridSize: widget.gridSize, settings: context.read<SettingsViewModel>()),
@@ -31,16 +33,18 @@ class _PuzzlePageState extends State<PuzzlePage> {
                 builder:
                     (_) => AlertDialog(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: const Text("🎉 تبریک!", textAlign: TextAlign.center),
+                      title: Text("${loc.get('congrats_title')}! 🎉 ", textAlign: TextAlign.center),
                       content: Text(
-                        "شما پازل را با ${vm.moveCount} حرکت و در ${_formatTime(vm.secondsElapsed)} حل کردید.",
-                        textAlign: TextAlign.center,
+                        '${loc.get('congrats_message')}'
+                            .replaceAll('{moves}', vm.moveCount.toString())
+                            .replaceAll('{time}', _formatTime(vm.secondsElapsed)),
                       ),
+
                       actionsAlignment: MainAxisAlignment.center,
                       actions: [
                         ElevatedButton.icon(
                           icon: const Icon(Icons.replay),
-                          label: const Text("شروع دوباره"),
+                          label: Text('${loc.get('restart')}'),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             backgroundColor: colorScheme.primary,
@@ -62,11 +66,13 @@ class _PuzzlePageState extends State<PuzzlePage> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               title: Text(
-                "پازل عددی",
+                '${loc.get('title')}',
                 style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.onSurface, fontFamily: 'IranSansNum'),
               ),
               centerTitle: true,
-              actions: [IconButton(icon: Icon(Icons.refresh, color: colorScheme.onSurface), tooltip: "شروع دوباره", onPressed: vm.reset)],
+              actions: [
+                IconButton(icon: Icon(Icons.refresh, color: colorScheme.onSurface), tooltip: '${loc.get('restart')}', onPressed: vm.reset),
+              ],
             ),
             body: Column(
               children: [
@@ -75,8 +81,8 @@ class _PuzzlePageState extends State<PuzzlePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _InfoCard(label: "حرکت‌ها", value: "${vm.moveCount}"),
-                      _InfoCard(label: "زمان", value: _formatTime(vm.secondsElapsed)),
+                      _InfoCard(label: '${loc.get('moves')}', value: "${vm.moveCount}"),
+                      _InfoCard(label: '${loc.get('time')}', value: _formatTime(vm.secondsElapsed)),
                     ],
                   ),
                 ),

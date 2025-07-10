@@ -16,6 +16,8 @@ dependencies:
   audioplayers: ^6.5.0
   google_fonts: ^6.2.1
   flutter_launcher_icons: ^0.14.4
+  flutter_localization: ^0.3.3
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +38,16 @@ flutter:
     - family: IRANSansNum
       fonts:
         - asset: assets/fonts/IRANSansMobile-FaNum.ttf
+
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto_Black.ttf
+        - asset: assets/fonts/Roboto_Bold.ttf
+        - asset: assets/fonts/Roboto_Light.ttf
+        - asset: assets/fonts/Roboto_Medium.ttf
+        - asset: assets/fonts/Roboto_UltraLight.ttf
+        - asset: assets/fonts/Roboto.ttf
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/click.mp3
