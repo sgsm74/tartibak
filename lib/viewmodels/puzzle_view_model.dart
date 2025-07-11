@@ -33,7 +33,7 @@ class PuzzleViewModel extends ChangeNotifier {
         tiles[tiles.length - 1] = tiles[emptyIndex];
         tiles[emptyIndex] = last;
       }
-    } while (!isSolvable(tiles.map((e) => e.value).toList(), gridSize));
+    } while (!isSolvable(tiles.map((e) => e.value).toList(), gridSize) || _isAlreadySolved());
 
     moveCount = 0;
     isCompleted = false;
@@ -147,6 +147,13 @@ class PuzzleViewModel extends ChangeNotifier {
 
   void _stopTimer() {
     _timer?.cancel();
+  }
+
+  bool _isAlreadySolved() {
+    for (int i = 0; i < tiles.length - 1; i++) {
+      if (tiles[i].value != i + 1) return false;
+    }
+    return true;
   }
 
   void reset() {
