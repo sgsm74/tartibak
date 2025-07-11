@@ -27,6 +27,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
           final tileSize = boardSize / vm.gridSize;
           if (vm.isCompleted) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
               showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -107,6 +108,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
                   ) ??
                   false;
               if (context.mounted && shouldPop) {
+                vm.reset();
                 Navigator.pop(context, result);
               }
             },
